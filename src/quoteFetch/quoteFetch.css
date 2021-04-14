@@ -1,0 +1,25 @@
+.quote {
+  font-family: "Poiret One", cursive;
+  z-index: 100;
+}
+
+.author {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  font-family: "Nothing You Could Do", cursive;
+  font-weight: 100;
+  z-index: 100;
+}
+
+.loading {
+  font-family: "Nothing You Could Do", cursive;
+  z-index: 100;
+}
+
+.container {
+  width: 50vw;
+  padding: 25px 100px 25px 100px;
+  border-radius: 5px;
+  background-image: linear-gradient(to top, #242529ab, #2425297e 100%);
+}

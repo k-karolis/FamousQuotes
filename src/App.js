@@ -1,5 +1,6 @@
 import "./App.css";
 import Fetcher from "./quoteFetch/quoteFetch.js";
+
 function App() {
   return (
     <div className='App'>
