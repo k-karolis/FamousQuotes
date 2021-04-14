@@ -8,7 +8,6 @@ export const QuoteFetch = () => {
   const [items, setItems] = useState([]);
   const [isVisible, setVisible] = useState(false);
 
-  console.log("initial" + isVisible);
   const min = 1;
   const max = 70000;
   const interval = 15000;
@@ -27,6 +26,9 @@ export const QuoteFetch = () => {
             setVisible(false);
             setIsLoaded(true);
             setItems(result);
+            console.log(result);
+            let utterance = new SpeechSynthesisUtterance(result.quote);
+            speechSynthesis.speak(utterance);
           },
           (error) => {
             setIsLoaded(true);
@@ -60,8 +62,8 @@ export const QuoteFetch = () => {
               transition: { duration: 1 },
             }}
           >
-            <h1 className='quote'>{items.quote}</h1>
-            <h1 className='author'> — {items.author}</h1>
+            <h3 className='quote'>{items.quote}</h3>
+            <h2 className='author'> — {items.author}</h2>
           </motion.div>
         )}
       </AnimatePresence>
