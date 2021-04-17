@@ -3,71 +3,65 @@ import { motion, AnimatePresence } from "framer-motion";
 import "./quoteFetch.css";
 
 export const QuoteFetch = () => {
-  const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [isVisible, setVisible] = useState(false);
 
-  const min = 1;
-  const max = 70000;
-  const interval = 15000;
-
-  setTimeout(() => {
-    setVisible(true);
-  }, 2000);
+  const min = 47144;
+  const max = 48143;
 
   useEffect(() => {
-    setInterval(function () {
-      let rand = Math.floor(Math.random() * (max - min + 1) + min);
-      fetch(`https://personal-mongo.herokuapp.com/quotes/${rand}`)
+    const interval = setInterval(() => {
+      const randNumber = Math.floor(Math.random() * (max - min + 1) + min);
+      fetch(`https://personal-mongo.herokuapp.com/quotes/${randNumber}`)
         .then((res) => res.json())
-        .then(
-          (result) => {
-            setVisible(false);
-            setIsLoaded(true);
-            setItems(result);
-            console.log(result);
-            let utterance = new SpeechSynthesisUtterance(result.quote);
-            speechSynthesis.speak(utterance);
-          },
-          (error) => {
-            setIsLoaded(true);
-            setError(error);
-          }
-        );
-    }, interval);
-  }, [isLoaded]);
+        .then((result) => {
+          setIsLoaded(true);
+          setItems(result);
+          // let utterance = new SpeechSynthesisUtterance(result.quote);
+          // speechSynthesis.speak(utterance);
+          // let utterance2 = new SpeechSynthesisUtterance(result.author);
+          // speechSynthesis.speak(utterance2);
+          setVisible(true);
+        });
 
-  if (error) {
-    return <h3>Error: {error.message}</h3>;
-  } else if (!isLoaded) {
-    return <h1 className='loading'>Loading...</h1>;
-  } else {
-    return (
-      <AnimatePresence>
-        {isVisible && (
-          <motion.div
-            className='container'
-            key='1'
-            initial={{
-              opacity: 0,
-              transition: { duration: 1 },
-            }}
-            animate={{
-              opacity: 1,
-              transition: { duration: 1 },
-            }}
-            exit={{
-              opacity: 0,
-              transition: { duration: 1 },
-            }}
-          >
-            <h3 className='quote'>{items.quote}</h3>
-            <h2 className='author'> — {items.author}</h2>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    );
-  }
+      setTimeout(() => {
+        setVisible(false);
+      }, 14000);
+    }, 15000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return isLoaded ? (
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          className='container'
+          key='1'
+          initial={{
+            opacity: 0,
+            transition: { duration: 1 },
+          }}
+          animate={{
+            opacity: 1,
+            transition: { duration: 1 },
+          }}
+          exit={{
+            opacity: 0,
+            transition: { duration: 1 },
+          }}
+        >
+          <h3 className='quote'>{items.quote}</h3>
+
+          <h2 className='author'> — {items.author}</h2>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  ) : (
+    <h1 className='loading'>Loading...</h1>
+  );
 };
 export default QuoteFetch;
