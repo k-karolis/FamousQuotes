@@ -6,6 +6,7 @@ export const QuoteFetch = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [isVisible, setVisible] = useState(false);
+  const [isVisibleLoader, setVisibleLoader] = useState(true);
 
   const min = 47144;
   const max = 48143;
@@ -16,18 +17,24 @@ export const QuoteFetch = () => {
       fetch(`https://personal-mongo.herokuapp.com/quotes/${randNumber}`)
         .then((res) => res.json())
         .then((result) => {
-          setIsLoaded(true);
           setItems(result);
           // let utterance = new SpeechSynthesisUtterance(result.quote);
           // speechSynthesis.speak(utterance);
           // let utterance2 = new SpeechSynthesisUtterance(result.author);
           // speechSynthesis.speak(utterance2);
-          setVisible(true);
+          // setVisibleLoader(false);
+          setIsLoaded(true);
+          setVisibleLoader(false);
+          setTimeout(() => {
+            setVisible(true);
+          }, 1000);
         });
-
-      setTimeout(() => {
-        setVisible(false);
-      }, 14000);
+      setVisible(false);
+      setIsLoaded(false);
+      // setTimeout(() => {
+      //   setVisible(false);
+      //   setIsLoaded(false);
+      // }, 6000);
     }, 15000);
 
     return () => {
@@ -61,7 +68,27 @@ export const QuoteFetch = () => {
       )}
     </AnimatePresence>
   ) : (
-    <h1 className='loading'>Loading...</h1>
+    <AnimatePresence>
+      {isVisibleLoader && (
+        <motion.div
+          key='2'
+          initial={{
+            opacity: 0,
+            transition: { duration: 1 },
+          }}
+          animate={{
+            opacity: 1,
+            transition: { duration: 1 },
+          }}
+          exit={{
+            opacity: 0,
+            transition: { duration: 1 },
+          }}
+        >
+          <h1 className='loading'>Loading...</h1>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 export default QuoteFetch;
