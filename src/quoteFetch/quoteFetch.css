@@ -19,7 +19,7 @@
 
 .container {
   width: 30rem;
-  padding: 1rem 4rem 1rem 4rem;
+  padding: 1rem 4rem;
   border-radius: 5px;
   background-image: linear-gradient(to top, #242529ab, #2425297e 100%);
 }
